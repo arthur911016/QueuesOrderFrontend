@@ -10,8 +10,8 @@ export interface IButton {
 }
 
 export interface IOverlayProps {
-    onClose: () => void;
-    onOk: () => void;
+    onClose?: () => void;
+    onOk?: () => void;
     title: string;
 }
 

@@ -77,3 +77,8 @@ export const StyledDialog = styled(FlexDiv)`
       } 
     }
 `;
+
+export const StyledOverlay = styled(FlexDiv)`
+    color: white;
+    font-size: 18px;
+`;

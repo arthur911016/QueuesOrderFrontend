@@ -1,16 +1,16 @@
 import {IQueueComponent} from "../../types/types";
 import TicketComponent from "../ticketComponent/TicketComponent";
-import {FlexDiv} from "../../../../core/styles/styles";
+import {StyledQueueComponent} from "../../styles/styles";
 
 
 const QueueComponent = ({queue}: IQueueComponent) => {
 
     return (
-        <FlexDiv>
+        <StyledQueueComponent>
             {
                 queue.map(ticket => <TicketComponent ticket={ticket}/>)
             }
-        </FlexDiv>
+        </StyledQueueComponent>
     );
 }
 

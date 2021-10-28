@@ -22,15 +22,19 @@ const QueueDetailsComponent = () => {
                 <span>Bribes Details for Queue # {queue?.id}</span>
             </TopDataContainer>
             <div className={'buttonContainer'}>
-                <QueueComponent queue={queue?.originalQueue || [] } />
+                <div>
+                    <QueueComponent queue={queue?.originalQueue || [] } />
+                </div>
                 <Button text={'Go back to list'} onCLick={clearQueue} bgColor={'#C62828'}/>
             </div>
             {
                 queueStatus.length > 1 ?
                     <>
+                        <div style={{height: '70vh', overflow: 'auto', paddingRight: '5px'}}>
                         {
                             queueStatus.map(({queue, ticket}: any) => <QueueRowComponent queue={queue} ticket={ticket} id={0} statusMode/>)
                         }
+                        </div>
                         <span>Total bribes: {queueStatus.length - 1} bribes </span>
                     </> :
                     <StyledMessageContainer>

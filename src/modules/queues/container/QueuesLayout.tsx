@@ -8,6 +8,7 @@ import EditCreateList from "../components/editCreateList/EditCreateList";
 import Dialog from "../../../core/components/dialog/Dialog";
 import {DeleteIcon} from "../../../core/icons/Icons";
 import Modal from "../../../core/components/modal/Modal";
+import Overlay from "../../../core/components/overlay/Overlay";
 
 export const QueuesContext = createContext({
     store: new QueuesStores()
@@ -24,7 +25,8 @@ const QueuesLayout = () => {
         queueToEdit,
         closeEditQueue,
         handleOkCreateOrEditQueue,
-        modalQueueTitle
+        modalQueueTitle,
+        calculatingBribes
     } = store;
 
     return (
@@ -57,6 +59,9 @@ const QueuesLayout = () => {
                     >
                         <EditCreateList/>
                     </Modal>
+                }
+                {
+                    calculatingBribes && <Overlay title={'Calculating bribes...'}/>
                 }
             </StyledQueueLayout>
         </QueuesContext.Provider>

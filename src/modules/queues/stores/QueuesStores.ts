@@ -9,6 +9,7 @@ export class QueuesStores {
     queueToDelete = 0
     queueToEdit: IEditQueueProps | null = null;
     loadingQueue: boolean = true;
+    calculatingBribes = false;
     constructor(){
         makeObservable(this, {
             queues: observable,
@@ -22,7 +23,9 @@ export class QueuesStores {
             setQueueToEdit: action,
             modalQueueTitle: computed,
             loadingQueue: observable,
-            listPlaceholder: computed
+            listPlaceholder: computed,
+            calculatingBribes: observable,
+            setCalculationBribes: action
         })
         this.getAllQueues();
     }
@@ -33,6 +36,10 @@ export class QueuesStores {
 
     setLoadingQueues = (loadingQueue: boolean = false) => {
         this.loadingQueue = loadingQueue;
+    }
+
+    setCalculationBribes = (calculatingBribes: boolean = false) => {
+        this.calculatingBribes = calculatingBribes;
     }
 
     setQueues = (queues: QueueType[]) => {
@@ -68,27 +75,16 @@ export class QueuesStores {
 
     viewQueue = (id: number) =>  async () => {
         try {
+            this.setCalculationBribes(true);
             const result = await queuesServices.getQueueById(id)
             if (result.data) {
-                console.log(result.data);
+                this.setCalculationBribes();
                 this.setQueue(result.data)
             }
         } catch(err) {
+            this.setCalculationBribes();
             console.log(err)
         }
-    }
-
-    get queueStatus(){
-        if (!this.queue) {
-            return [];
-        }
-        const status = [{queue: this.queue?.orderedQueue || [], ticket: null}]
-        Object.values(this.queue?.bribedData?.bribesDetails || {}).forEach((({ticket, bribedDoneArray}: any) => {
-            bribedDoneArray.forEach((queue: number[]) => {
-                status.push({queue, ticket})
-            })
-        }))
-        return status;
     }
 
     clearQueue = () => {
@@ -107,7 +103,7 @@ export class QueuesStores {
     }
 
     decreaseEditQueue = () => {
-        if (this.queueToEdit && this.queueToEdit?.queue.length > 2) {
+        if (this.queueToEdit && this.queueToEdit?.queue.length > 1) {
             const queue = this.queueToEdit?.queue.filter(item => item !== this.queueToEdit?.queue.length);
             this.setQueueToEdit({
                 ...this.queueToEdit,
@@ -123,7 +119,7 @@ export class QueuesStores {
     createOrEditQueue = (id: number = 0) => () => {
         this.setQueueToEdit({
             id,
-            queue: !id? [1,2,3] : this.queues.find(el => el.id === id)?.queue || [],
+            queue: !id? [1] : this.queues.find(el => el.id === id)?.queue || [],
             isOpenEdit: true
         });
     }
@@ -162,6 +158,19 @@ export class QueuesStores {
             return Promise.resolve(false);
         }
 
+    }
+
+    get queueStatus(){
+        if (!this.queue) {
+            return [];
+        }
+        const status = [{queue: this.queue?.orderedQueue || [], ticket: null}]
+        Object.values(this.queue?.bribedData?.bribesDetails || {}).forEach((({ticket, bribedDoneArray}: any) => {
+            bribedDoneArray.forEach((queue: number[]) => {
+                status.push({queue, ticket})
+            })
+        }))
+        return status;
     }
 
     get modalQueueTitle(){

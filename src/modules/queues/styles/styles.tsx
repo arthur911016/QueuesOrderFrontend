@@ -36,10 +36,11 @@ export const StyledQueueRow = styled(FlexDiv)`
   justify-content: space-between;
   align-items: center;
   & > div:first-child {
-    width: calc(100% - 145px);
+    width: calc(100% - 165px);
+    overflow: auto;
   }
-  & > *:last-child {
-    width: 140px;
+  & > span:last-child {
+    width: 160px;
   }
   & span.statusSpan {
     text-align: end;
@@ -48,7 +49,7 @@ export const StyledQueueRow = styled(FlexDiv)`
 
 export const StyledActionsContainer = styled(FlexDiv)`
   justify-content: space-between;
-  width: 90px;
+  width: 140px;
 `;
 
 export const StyledQueueStatus = styled(FlexDiv)`
@@ -61,8 +62,9 @@ export const StyledQueueStatus = styled(FlexDiv)`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
-    & > div:last-child {
-      height: 35px;
+    & > div:first-child {
+      width: calc(100% - 165px);
+      overflow: auto;
     }
   }
   & > span {
@@ -94,4 +96,11 @@ export const StyledMessageContainer = styled(FlexDiv)`
 
 export const StyledCreateButtonContainer = styled(FlexDiv)`
   flex-direction: row-reverse;
+`
+
+export const StyledQueueComponent = styled(FlexDiv)`
+    width: max-content;
+    & > div {
+        width: 70px;
+    }
 `

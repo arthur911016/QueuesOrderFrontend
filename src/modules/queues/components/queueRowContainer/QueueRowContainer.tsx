@@ -15,7 +15,9 @@ const QueueRowComponent = ({ queue, id, ticket, statusMode }: IQueueRowContainer
 
     return (
         <StyledQueueRow>
-            <QueueComponent queue={queue}/>
+            <div>
+                <QueueComponent queue={queue}/>
+            </div>
             {
                 !statusMode ?
                     <StyledActionsContainer>
